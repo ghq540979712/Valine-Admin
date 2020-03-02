@@ -50,9 +50,9 @@ exports.notice = (comment) => {
     if ( noticeSCKEY != null ) {
         let describe = '## 您的博客 ' + 
             process.env.SITE_NAME + 
-            ' 收到了新的评论\r\n ### 评论内容'+"\r\n > " + 
+            ' 收到了新的评论\r\n ### 评论内容：'+"\r\n > " + 
             comment.get('comment') +
-            '\r\n ### 原文地址 👉 [点此进入](' + 
+            '\r\n\r\n ### 原文地址 👉 [点此进入](' + 
             process.env.SITE_URL + 
             comment.get('url') +
             ')\r\n 如果无法直接打开，请复制以下链接在浏览器中进行访问：' + 
