@@ -49,31 +49,19 @@ exports.notice = (comment) => {
     
     let noticeSCKEY = process.env.SCKEY || null;
     if ( noticeSCKEY != null ) {
-        let describe = '## 您的博客 ' + 
-            process.env.SITE_NAME + 
-            ' 收到了新的评论\r\n ### 评论内容：'+"\r\n > " + 
-            comment.get('comment') +
-            '\r\n\r\n ### 原文地址 👉 [点此进入](' + 
-            process.env.SITE_URL + 
-            comment.get('url') +
-            ')\r\n 如果无法直接打开，请复制以下链接在浏览器中进行访问：' + 
-            process.env.SITE_URL + 
-            comment.get('url') +
-            '\r\n\r\n ### 评论者信息\r\n > 昵称：' +
-            comment.get('nick') +
-            '\r\n > 邮箱：' +
-            comment.get('mail') +
-            '\r\n > 原文URI：' +
-            comment.get('url') +
-            '\r\n 管理后台：[点此进入](' +
-            process.env.ADMIN_URL + 
-            ')\r\n 后台访问直链：' + 
-            process.env.ADMIN_URL;
+        let pasgURL = process.env.SITE_URL + comment.get('url');
+        let notifyContents = '评论内容：' + "\r\n > " + comment.get('comment') + "\r\n\r\n" +
+            "原文地址：[" + pasgURL + "](" + pasgURL + ") \r\n\r\n" +
+            "评论者信息：" + 
+            "> 昵称：" + comment.get('nick') + "\r\n" + 
+            "> 邮箱：" + comment.get('mail') + "\r\n" + 
+            "> URI：" + comment.get('url') + "\r\n\r\n" + 
+            "管理后台：[" + process.env.ADMIN_URL + "](" + process.env.ADMIN_URL + ") \r\n";
         request.post({
             url: 'https://sc.ftqq.com/' + process.env.SCKEY + '.send',
             form: {
-                text: process.env.SITE_NAME + '叮咚~ 你的博客来评论啦！',
-                desp: describe
+                text: '你的博客 ' + process.env.SITE_NAME + ' 来新评论啦',
+                desp: notifyContents
             }
         }, function(error, response, body) {
             if (!error && response.statusCode == 200)
