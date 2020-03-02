@@ -1,5 +1,6 @@
 'use strict';
 const nodemailer = require('nodemailer');
+const request = require('request');
 
 let config = {
     auth: {
@@ -76,7 +77,7 @@ exports.notice = (comment) => {
             }
         }, function(error, response, body) {
             if (!error && response.statusCode == 200)
-                console.log("博主SERVER酱通知发送成功！");
+                console.log("SERVER酱通知发送成功: %s", response.statusCode);
         });
     }
 
