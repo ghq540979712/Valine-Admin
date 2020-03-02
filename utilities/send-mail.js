@@ -50,17 +50,16 @@ exports.notice = (comment) => {
     let noticeSCKEY = process.env.SCKEY || null;
     if ( noticeSCKEY != null ) {
         let pasgURL = process.env.SITE_URL + comment.get('url');
-        let notifyContents = '评论内容：' + "\r\n > " + comment.get('comment') + "\r\n\r\n" +
-            "原文地址：[" + pasgURL + "](" + pasgURL + ") \r\n\r\n" +
-            "评论者信息：" + 
-            "> 昵称：" + comment.get('nick') + "\r\n" + 
-            "> 邮箱：" + comment.get('mail') + "\r\n" + 
-            "> URI：" + comment.get('url') + "\r\n\r\n" + 
+        let notifyContents = "原文地址：[" + pasgURL + "](" + pasgURL + ") \r\n\r\n" + 
+            "评论者昵称：" + comment.get('nick') + "\r\n" + 
+            "评论者邮箱：" + comment.get('mail') + "\r\n" + 
+            "原文章URI：" + comment.get('url') + "\r\n\r\n" + 
+            "评论内容：" + "\r\n" + '```' + "\r\n" + comment.get('comment') + "\r\n" + '```' + "\r\n\r\n" +
             "管理后台：[" + process.env.ADMIN_URL + "](" + process.env.ADMIN_URL + ") \r\n";
         request.post({
             url: 'https://sc.ftqq.com/' + process.env.SCKEY + '.send',
             form: {
-                text: '你的博客 ' + process.env.SITE_NAME + ' 来新评论啦',
+                text: '你的博客有新的评论啦',
                 desp: notifyContents
             }
         }, function(error, response, body) {
