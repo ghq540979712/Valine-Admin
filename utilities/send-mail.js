@@ -45,6 +45,30 @@ exports.notice = (comment) => {
         subject: emailSubject,
         html: emailContent
     };
+    
+    let noticeSCKEY = process.env.SCKEY || null;
+    if ( noticeSCKEY != null ) {
+        let describe = '### 您的网站\r\n' + 
+            process.env.SITE_NAME + 
+            '\r\n ### 评论内容'+"\r\n > " + 
+            comment.get('comment')+'\r\n 原文地址 👉 '+ 
+            process.env.SITE_URL + 
+            comment.get('url') +
+            '\r\n ### 评论者信息\r\n > 昵称：' +
+            comment.get('nick') +
+            '\r\n > 邮箱：' +
+            comment.get('mail');
+        request.post({
+            url: 'https://sc.ftqq.com/' + process.env.SCKEY + '.send',
+            form: {
+                text: process.env.SITE_NAME + '叮咚~ 你的博客来评论啦！',
+                desp: describe
+            }
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 200)
+                console.log("博主SERVER酱通知发送成功！");
+        });
+    }
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
